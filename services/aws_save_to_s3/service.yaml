@@ -1,0 +1,80 @@
+cmd:
+  type: python-venv
+  command:
+    default: python -u run.py
+  path:
+    default: ~/.opereto/operetovenv
+item_properties:
+-   direction: input
+    editor: text
+    key: bucket_name
+    mandatory: true
+    type: text
+    value:
+-   direction: input
+    editor: text
+    key: source_path
+    mandatory: true
+    type: text
+    value:
+    help: local source path of file or directory
+-   direction: input
+    editor: text
+    key: target_path
+    mandatory: false
+    type: text
+    value:
+    help: target path in s3 of file or directory
+-   editor: checkbox
+    key: create_bucket
+    direction: input
+    mandatory: false
+    type: boolean
+    value: true
+    help: If checked, the service will create the bucket if it does no exist
+-   editor: checkbox
+    key: make_public
+    direction: input
+    mandatory: false
+    type: boolean
+    value: false
+    help: If checked, allows content to be seen by everyone
+-   editor: text
+    key: content_type
+    direction: input
+    mandatory: true
+    type: text
+    value: text/plain
+    help: Content type of stored data. Default is text/plain.
+-   editor: number
+    key: presigned_url_expiry
+    direction: input
+    mandatory: false
+    type: integer
+    value: 2592000
+    help: If higher than 0, generates a pre-signed storage URL with this expiry seconds. Default is 30 days.
+-   editor: text
+    key: aws_access_key
+    direction: input
+    mandatory: true
+    store: []
+    type: text
+    help: AWS access key
+    value: GLOBALS.opereto_aws_services-aws_access_key
+-   editor: text
+    key: aws_secret_key
+    mandatory: true
+    direction: input
+    store: []
+    type: text
+    help: AWS secret key
+    value: GLOBALS.opereto_aws_services-aws_secret_key
+-   editor: hidden
+    key: storage_url
+    mandatory: false
+    direction: output
+    type: text
+    help: Storage endpoint url
+    value:
+timeout: 1800
+type: action

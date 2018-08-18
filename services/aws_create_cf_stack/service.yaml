@@ -1,0 +1,146 @@
+cmd:
+  type: python-venv
+  command:
+    default: python -u run.py
+  path:
+    default: ~/.opereto/operetovenv
+item_properties:
+-   direction: input
+    editor: text
+    key: cf_stack_name
+    mandatory: true
+    type: text
+    value:
+    help: A unique name for the cloud formation stack
+-   direction: input
+    editor: json
+    key: cf_template
+    mandatory: false
+    type: json
+    value: {}
+    help: The cloud formation template (json format)
+    example: {
+        "Resources": {
+            "Node1": {
+                "Type": "AWS::EC2::Instance",
+                "Properties": {
+                    "ImageId": "ami-a4dc46db",
+                    "KeyName": "MYKEY",
+                    "SecurityGroups": [
+                        {
+                            "Ref": "InstanceSecurityGroup"
+                        }
+                    ],
+                    "InstanceType": "m4.large",
+                    "Tags": [
+                        {
+                            "Key": "OperetoAgentOs",
+                            "Value": "linux"
+                        }
+                    ]
+                }
+            },
+            "InstanceSecurityGroup": {
+                "Type": "AWS::EC2::SecurityGroup",
+                "Properties": {
+                    "SecurityGroupIngress": [
+                        {
+                            "ToPort": "22",
+                            "FromPort": "22",
+                            "CidrIp": "0.0.0.0/0",
+                            "IpProtocol": "tcp"
+                        }
+                    ],
+                    "GroupDescription": "Enable instance ports"
+                }
+            }
+        }
+    }
+-   direction: input
+    editor: text
+    key: cf_template_url
+    mandatory: false
+    type: text
+    value:
+    help: The cloud formation template url (e.g. An S3 URL of a stored template JSON document. If both the template_body and template_url are specified, the template_body takes precedence)
+    example:
+-   direction: input
+    editor: json
+    key: cf_parameters
+    mandatory: false
+    type: json
+    value: {}
+    help: A map of (key, value) pairs for template input parameters.
+-   direction: input
+    editor: json
+    key: cf_tags
+    mandatory: false
+    type: json
+    value: {}
+    help: A map of (key, value) pairs of tags to associate with this stack
+-   direction: input
+    editor: text
+    key: cf_capabilities
+    mandatory: false
+    type: text
+    value:
+    help: comma delimited list of capabilities you want to allow in the stack. Currently, the only valid capability is ‘CAPABILITY_IAM’
+-   direction: input
+    editor: checkbox
+    key: install_core_tools
+    mandatory: false
+    type: boolean
+    value: false
+    help: If checked, installs opereto core tools on each agent installation
+-   direction: input
+    editor: checkbox
+    key: disable_rollback
+    mandatory: false
+    type: boolean
+    value: false
+    help: If checked, cf stack will not rollback upon failure. Useful for manual inspection and deletion
+-   direction: input
+    editor: checkbox
+    key: install_container_tools
+    mandatory: false
+    type: boolean
+    value: false
+    help: If checked, installs opereto container tools on each agent installation
+-   editor: text
+    key: aws_access_key
+    direction: input
+    mandatory: true
+    store: []
+    type: text
+    help: Access key to IAM account
+    value: GLOBALS.opereto_aws_services-aws_access_key
+-   editor: text
+    key: aws_secret_key
+    mandatory: true
+    direction: input
+    store: []
+    type: text
+    help: Access key to IAM account
+    value: GLOBALS.opereto_aws_services-aws_secret_key
+-   editor: text
+    key: aws_region
+    direction: input
+    mandatory: true
+    store: []
+    type: text
+    help: Default AWS region
+    value: GLOBALS.opereto_aws_services-aws_default_region
+-   editor: hidden
+    key: stack_id
+    direction: output
+    type: text
+    help: The created cloud formation stack id
+    value:
+-   editor: hidden
+    key: stack_output
+    direction: output
+    type: json
+    help: The created cloud formation stack output
+    value:
+timeout: 3600
+type: action

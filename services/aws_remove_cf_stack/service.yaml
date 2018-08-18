@@ -1,0 +1,40 @@
+cmd:
+  type: python-venv
+  command:
+    default: python -u run.py
+  path:
+    default: ~/.opereto/operetovenv
+item_properties:
+-   direction: input
+    editor: text
+    key: cf_stack_name
+    mandatory: true
+    type: text
+    value:
+    help: A unique name for the cloud formation stack
+-   editor: text
+    key: aws_access_key
+    direction: input
+    mandatory: true
+    store: []
+    type: text
+    help: Access key to IAM account
+    value: GLOBALS.opereto_aws_services-aws_access_key
+-   editor: text
+    key: aws_secret_key
+    mandatory: true
+    direction: input
+    store: []
+    type: text
+    help: Access key to IAM account
+    value: GLOBALS.opereto_aws_services-aws_secret_key
+-   editor: text
+    key: aws_region
+    direction: input
+    mandatory: true
+    store: []
+    type: text
+    help: Default AWS region
+    value: GLOBALS.opereto_aws_services-aws_default_region
+timeout: 1800
+type: action
