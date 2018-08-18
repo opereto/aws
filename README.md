@@ -13,7 +13,7 @@ The package includes two services:
 
 ### Prerequisits/dependencies
 * Services are mapped to run on a standard opereto worker agent
-* [opereto_core_services](https://github.com/opereto/core)
+* opereto_core_services
         
         
 ### Service packages documentation
