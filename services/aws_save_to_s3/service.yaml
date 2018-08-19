@@ -60,7 +60,7 @@ item_properties:
     store: []
     type: text
     help: AWS access key
-    value: GLOBALS.opereto_aws_services-aws_access_key
+    value: GLOBALS.opereto-aws-services-aws_access_key
 -   editor: text
     key: aws_secret_key
     mandatory: true
@@ -68,7 +68,7 @@ item_properties:
     store: []
     type: text
     help: AWS secret key
-    value: GLOBALS.opereto_aws_services-aws_secret_key
+    value: GLOBALS.opereto-aws-services-aws_secret_key
 -   editor: hidden
     key: storage_url
     mandatory: false

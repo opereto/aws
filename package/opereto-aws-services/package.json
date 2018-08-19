@@ -1,20 +1,20 @@
 {
-    "id": "opereto_aws_services",
+    "id": "opereto-aws-services",
     "globals": [
           {
-              "id": "opereto_aws_services-aws_access_key",
+              "id": "opereto-aws-services-aws_access_key",
               "hidden": true,
               "value": "<YOUR_AWS_ACCESS_KEY>",
               "description": "Access key to IAM account with admin previleges"
           },
           {
-              "id": "opereto_aws_services-aws_secret_key",
+              "id": "opereto-aws-services-aws_secret_key",
               "hidden": true,
               "value": "<YOUR_AWS_SECRET_KEY>",
               "description": "Secret key to IAM account with admin previleges"
           },
           {
-              "id": "opereto_aws_services-aws_default_region",
+              "id": "opereto-aws-services-aws_default_region",
               "hidden": true,
               "value": "us-east-1",
               "description": "Default AWS region to run in"
@@ -58,7 +58,7 @@
     },
     "summary": "This package contains a set of common operations used by opereto in AWS cloud environment",
     "description": "This package is a wrapper to several operations (as listed bellow) that are commonly used by opereto users maintaining a continuous testing ecosystem in AWS cloud environment. AWS provides a comprehensive set of API calls allowing to manage every resource and perform any operation available. In case you need additional devops operations, we recommend wrapping one of the many third-party libraries or command line toos available in the market and build your own opereto services based on those tools.",
-    "version": "1.0.72",
+    "version": "1.0.73",
     "provider": "Opereto LTD",
     "category": "Cloud Computing Operations",
     "provider_url": "http://www.opereto.com",

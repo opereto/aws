@@ -113,7 +113,7 @@ item_properties:
     store: []
     type: text
     help: Access key to IAM account
-    value: GLOBALS.opereto_aws_services-aws_access_key
+    value: GLOBALS.opereto-aws-services-aws_access_key
 -   editor: text
     key: aws_secret_key
     mandatory: true
@@ -121,7 +121,7 @@ item_properties:
     store: []
     type: text
     help: Access key to IAM account
-    value: GLOBALS.opereto_aws_services-aws_secret_key
+    value: GLOBALS.opereto-aws-services-aws_secret_key
 -   editor: text
     key: aws_region
     direction: input
@@ -129,7 +129,7 @@ item_properties:
     store: []
     type: text
     help: Default AWS region
-    value: GLOBALS.opereto_aws_services-aws_default_region
+    value: GLOBALS.opereto-aws-services-aws_default_region
 -   editor: hidden
     key: stack_id
     direction: output
