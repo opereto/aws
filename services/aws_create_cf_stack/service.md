@@ -43,6 +43,25 @@ For example:
 ...
 ``` 
 
+#### Use cf_globals property 
+This property is allows to specify opereto global property containing secret values (e.g. passwords, access credentials) to pass as parameters to cloud formation template
+For example, you can pass some secret parameters to the cloud formation template making sure they are not exposed in opereto input property screens and in logs.
+
+* Create a hidden global property in opereto (e.g. my_cf_secret_params)
+* Specify your secret parameters as a key-value map
+```
+{
+   "my_secret_key" : "my_secret_value"
+}
+```
+* Pass the property name (e.g. my_cf_secret_params) as a value to the cf_globals input property
+* In the cloud formation template, map a given parameter value to the relevant value in the map as follows:
+```
+SomeParam: globals.my_secret_key
+```
+
+
+
 
 
 #### Service success criteria

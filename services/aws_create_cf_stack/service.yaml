@@ -86,6 +86,13 @@ item_properties:
     value:
     help: comma delimited list of capabilities you want to allow in the stack. Currently, the only valid capability is ‘CAPABILITY_IAM’
 -   direction: input
+    editor: text
+    key: cf_globals
+    mandatory: false
+    type: text
+    value:
+    help: a name of system global parameter containing a map of values. Useful to store passwords and other secret parameters. See service info for usage example.
+-   direction: input
     editor: checkbox
     key: install_core_tools
     mandatory: false

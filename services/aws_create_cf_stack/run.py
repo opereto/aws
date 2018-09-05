@@ -51,6 +51,9 @@ class ServiceRunner(ServiceTemplate):
                  "cf_tags": {
                     "type" : ["object", "null"]
                  },
+                "cf_globals": {
+                    "type": ["object", "null"]
+                 },
                  "aws_access_key": {
                     "type" : "string",
                      "minLength": 1
@@ -80,6 +83,7 @@ class ServiceRunner(ServiceTemplate):
         self.install_container_tools = self.input['install_container_tools']
         self.agent_valid_os = ['linux', 'windows']
         self.cf_capabilities = self.input['cf_capabilities'].split(',')
+        self.cf_globals = self.input['cf_globals']
 
         if self.install_container_tools and not self.install_core_tools:
             raise Exception, 'Opereto container tools is dependant on opereto core tools. Please check the "install_core_tools" checkbox too.'
@@ -227,8 +231,13 @@ class ServiceRunner(ServiceTemplate):
                 additional_params['capabilities']=self.cf_capabilities
 
             if self.input['cf_parameters']:
-                additional_params['parameters']=self.input['cf_parameters'].items()
-
+                cf_params = self.input['cf_parameters']
+                if self.cf_globals:
+                    for key,val in cf_params.items():
+                        if val.startswith('cf_globals.'):
+                            new_val = self.cf_globals.get(val[len('cf_globals.'):])
+                            cf_params[key]=new_val
+                additional_params['parameters']=cf_params.items()
 
             if self.input['cf_tags']:
                 additional_params['tags']=self.input['cf_tags']
