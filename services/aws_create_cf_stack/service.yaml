@@ -86,10 +86,10 @@ item_properties:
     value:
     help: comma delimited list of capabilities you want to allow in the stack. Currently, the only valid capability is ‘CAPABILITY_IAM’
 -   direction: input
-    editor: text
+    editor: json
     key: cf_globals
     mandatory: false
-    type: text
+    type: json
     value:
     help: a name of system global parameter containing a map of values. Useful to store passwords and other secret parameters. See service info for usage example.
 -   direction: input
