@@ -17,6 +17,6 @@ The package includes two services:
         
         
 ### Service packages documentation
-* [Learn more about automation packages and how to use them](http://help.opereto.com/support/solutions/articles/9000152583-an-overview-of-service-packages)
-* [Learn more how to extend this package or build custom packages](http://help.opereto.com/support/solutions/articles/9000152584-build-and-maintain-custom-packages)
+* [Learn more about automation packages and how to use them](http://docs.opereto.com/docs/service-packages-overview/)
+* [Learn more how to extend this package or build custom packages](http://docs.opereto.com/docs/build-custom-packages/)
 
