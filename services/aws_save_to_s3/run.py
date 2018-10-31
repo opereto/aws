@@ -27,8 +27,7 @@ class ServiceRunner(ServiceTemplate):
                      "minLength": 1
                  },
                  "target_path": {
-                     "type" : "string",
-                     "minLength": 1
+                     "type" : ["string", "null"]
                  },
                  "presigned_url_expiry": {
                      "type": "integer"
@@ -56,6 +55,7 @@ class ServiceRunner(ServiceTemplate):
         }
         validator = JsonSchemeValidator(self.input, input_scheme)
         validator.validate()
+
 
         self.source_path = self.input['source_path']
         self.target_path = self.input['target_path'].lstrip('/')
