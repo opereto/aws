@@ -7,7 +7,6 @@ See all services in the /services directory.
 * Services are mapped to run on a standard opereto worker agent
 * opereto_core_services
         
-        
 
 ### Service packages documentation
 * [Learn more about automation packages and how to use them](https://docs.opereto.com/opereto-framework/automation_services/service-packages/)
