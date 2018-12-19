@@ -1,5 +1,6 @@
 import boto
 import boto.cloudformation
+import boto.ec2
 import json
 import time
 import sys
@@ -200,8 +201,7 @@ class ServiceRunner(ServiceTemplate):
         self._print_step_title('Connecting to AWS..')
         self.cf_conn = boto.cloudformation.connect_to_region(self.input['aws_region'], aws_access_key_id=self.input['aws_access_key'],
                                                         aws_secret_access_key=self.input['aws_secret_key'])
-
-        self.ec2_conn = boto.connect_ec2(aws_access_key_id=self.input['aws_access_key'], aws_secret_access_key=self.input['aws_secret_key'])
+        self.ec2_conn = boto.ec2.connect_to_region(self.input['aws_region'], aws_access_key_id=self.input['aws_access_key'], aws_secret_access_key=self.input['aws_secret_key'])
         print 'Connected.'
 
 
@@ -292,12 +292,15 @@ class ServiceRunner(ServiceTemplate):
                         break
                     time.sleep(20)
 
+                print 'All instances are running.'
+
 
                 self.client.modify_process_property('stack_id', self.stack_full_id)
                 self.client.modify_process_property('stack_output', self.stack_output)
                 for agent_name, attr in self.agents.items():
                     self.agents[agent_name]['cf_stack_id']=self.stack_full_id
 
+                self._print_step_title('Test SSH connectivity to all instances..')
                 ## test connectivity
                 for agent_name, attr in self.agents.items():
                     if attr.get('ip_address'):
@@ -312,14 +315,17 @@ class ServiceRunner(ServiceTemplate):
                             print "Error on connect: %s" % e
                             s.close()
 
+
                 ## check agents installation
+                if self.agents:
+                    self._print_step_title('Verify agents installation and configuration..')
+
                 try:
                     verify_that_all_agents_connected()
                 except:
                     raise OperetoRuntimeError('One or more agents failed to install. aborting..')
 
                 ## modify agent properties
-
                 for agent_name, attr in self.agents.items():
                     try:
                         self.client.modify_agent_properties(agent_name, attr)
@@ -359,6 +365,7 @@ class ServiceRunner(ServiceTemplate):
                     if not self.client.is_success(install_list_2):
                         raise OperetoRuntimeError('Failed to install opereto container tools on one or more agents')
 
+            print 'Cloud formation stack created successfully.'
 
         except Exception, e:
 
