@@ -121,6 +121,15 @@ item_properties:
     type: text
     help: Access key to IAM account
     value: GLOBALS.opereto-aws-services-aws_access_key
+-   editor: json
+    key: agent_package_url
+    direction: input
+    mandatory: true
+    type: json
+    help: The installation packages of the Opereto agent
+    value:
+        linux: https://s3.amazonaws.com/opereto_downloads/opereto-agent-latest.tar.gz
+        windows: https://s3.amazonaws.com/opereto_downloads/opereto-agent-latest.zip
 -   editor: text
     key: aws_secret_key
     mandatory: true

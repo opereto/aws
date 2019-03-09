@@ -40,6 +40,21 @@ class ServiceRunner(ServiceTemplate):
                  "opereto_container_tools": {
                     "type" : "boolean"
                  },
+                 "agent_package_url": {
+                    "type": "object",
+                    "properties": {
+                        "windows": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "linux": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    },
+                     "required": ['windows', 'linux'],
+                     "additionalProperties": True
+                },
                 "disable_rollback": {
                     "type": "boolean"
                 },
@@ -105,7 +120,7 @@ class ServiceRunner(ServiceTemplate):
                 "$MyDir = \"c:\"",
                 "$filename = Join-Path -Path $MyDir -ChildPath \"opereto-agent-latest.zip\"",
                 "$WebClient = New-Object System.Net.WebClient",
-                "$WebClient.DownloadFile(\"https://s3.amazonaws.com/opereto_downloads/opereto-agent-latest.zip\", \"$filename\")",
+                "$WebClient.DownloadFile(\"%s\", \"$filename\")" %(self.input['agent_package_url']['windows']),
                 "Unzip \"$MyDir\opereto-agent-latest.zip\" \"$MyDir\opereto\"",
                 "cd \"$MyDir\opereto\opereto-agent-latest\"",
                 "./opereto-install.bat %s %s \"%s\" %s javaw" %(self.input['opereto_host'], self.input['opereto_user'], self.input['opereto_password'], agent_name),
@@ -124,7 +139,7 @@ class ServiceRunner(ServiceTemplate):
                 "exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1",
                 "sed --in-place /requiretty/d /etc/sudoers",
                 "cd /tmp",
-                "curl -O https://s3.amazonaws.com/opereto_downloads/opereto-agent-latest.tar.gz",
+                "curl -O %s" %(self.input['agent_package_url']['linux']),
                 "tar -zxvf opereto-agent-latest.tar.gz",
                 "cd opereto-agent-latest",
                 "sudo chmod 777 -R *",
