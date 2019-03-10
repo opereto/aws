@@ -24,7 +24,7 @@ item_properties:
     mandatory: false
     type: text
     value:
-    help: target path in s3 of file or directory
+    help: target path in s3 for file or directory to be upload
 -   editor: checkbox
     key: create_bucket
     direction: input
