@@ -225,6 +225,7 @@ class ServiceRunner(ServiceTemplate):
     def process(self):
 
         self.stack_full_id=None
+        self.stack_output = {}
 
         @retry(10,60,1)
         def verify_that_all_agents_connected():
@@ -267,7 +268,7 @@ class ServiceRunner(ServiceTemplate):
                 additional_params['template_body'] = json.dumps(self.cf_template)
 
             self.stack_full_id = self.cf_conn.create_stack(self.input['cf_stack_name'], **additional_params)
-            self.stack_output = {}
+
 
             if len(self.cf_conn.describe_stacks(self.stack_full_id))==1:
                 print 'Stack created (%s)'%self.stack_full_id
@@ -276,8 +277,17 @@ class ServiceRunner(ServiceTemplate):
                     if self.cf_conn.describe_stacks(self.stack_full_id)[0].stack_status == 'CREATE_COMPLETE':
                         break
                     if self.cf_conn.describe_stacks(self.stack_full_id)[0].stack_status in ['CREATE_FAILED', 'ROLLBACK_COMPLETE']:
+                        cf_error = {}
+                        cf_error_msg=[]
                         for e in self.cf_conn.describe_stack_events(self.stack_full_id):
-                            print '%s [%s]: %s'%(e.logical_resource_id, e.resource_status, e.resource_status_reason)
+                            cf_error[e.logical_resource_id] = {
+                                'status': e.resource_status,
+                                'reason': e.resource_status_reason
+                            }
+                            error_msg = '%s [%s]: %s'%(e.logical_resource_id, e.resource_status, e.resource_status_reason)
+                            print(error_msg)
+                            cf_error_msg.append(error_msg)
+                        self.stack_output['cf_error']='\n'.join(cf_error_msg)
                         return self.client.FAILURE
                     time.sleep(20)
 
@@ -311,7 +321,6 @@ class ServiceRunner(ServiceTemplate):
 
 
                 self.client.modify_process_property('stack_id', self.stack_full_id)
-                self.client.modify_process_property('stack_output', self.stack_output)
                 for agent_name, attr in self.agents.items():
                     self.agents[agent_name]['cf_stack_id']=self.stack_full_id
 
@@ -381,6 +390,7 @@ class ServiceRunner(ServiceTemplate):
                         raise OperetoRuntimeError('Failed to install opereto container tools on one or more agents')
 
             print 'Cloud formation stack created successfully.'
+            return self.client.SUCCESS
 
         except Exception, e:
 
@@ -388,12 +398,15 @@ class ServiceRunner(ServiceTemplate):
             import re
             err_msg = re.sub("(.{9900})", "\\1\n", str(e), 0, re.DOTALL)
             print >> sys.stderr, 'Cloud formation stack initiation failed : %s.'%err_msg
+            self.stack_output['cf_error']=err_msg
             if self.stack_full_id and not self.input.get('disable_rollback'):
                 print 'Rollback the stack..'
                 print self.cf_conn.delete_stack(self.stack_full_id)
             return self.client.FAILURE
 
-        return self.client.SUCCESS
+        finally:
+            self.client.modify_process_property('stack_output', self.stack_output)
+
 
     def teardown(self):
         pass
