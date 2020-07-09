@@ -156,7 +156,11 @@ item_properties:
     key: stack_output
     direction: output
     type: json
-    help: The created cloud formation stack output
+    help: |
+      The created cloud formation stack output. In case of CF errors, the error text will be added as follows:
+      {
+          "cf_error": "the error message text...."
+      }
     value:
 timeout: 3600
 type: action

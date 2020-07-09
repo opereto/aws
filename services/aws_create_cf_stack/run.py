@@ -123,7 +123,7 @@ class ServiceRunner(ServiceTemplate):
                 "$WebClient.DownloadFile(\"%s\", \"$filename\")" %(self.input['agent_package_url']['windows']),
                 "Unzip \"$MyDir\opereto-agent-latest.zip\" \"$MyDir\opereto\"",
                 "cd \"$MyDir\opereto\opereto-agent-latest\"",
-                "./opereto-install.bat %s %s \"%s\" %s javaw" %(self.input['opereto_host'], self.input['opereto_user'], self.input['opereto_password'], agent_name),
+                "./opereto-install.bat %s %s %s javaw" %(self.input['opereto_host'], self.input['opereto_token'], agent_name),
                 "./opereto-start.bat",
                 "Remove-Item $filename",
                 "</powershell>",
@@ -143,7 +143,7 @@ class ServiceRunner(ServiceTemplate):
                 "tar -zxvf opereto-agent-latest.tar.gz",
                 "cd opereto-agent-latest",
                 "sudo chmod 777 -R *",
-                "./install.sh -b %s -u %s -p %s -n %s"%(self.input['opereto_host'], self.input['opereto_user'], self.input['opereto_password'], agent_name)
+                "./install.sh -h %s -t %s -n %s"%(self.input['opereto_host'], self.input['opereto_token'], agent_name)
             ]
             return data
 
